@@ -1,4 +1,4 @@
 ﻿using BenchmarkDotNet.Running;
 using WoAPoCApp;
 
-BenchmarkRunner.Run<BeanchMarkExecutor>();
+BenchmarkRunner.Run<DemoPoC>();

@@ -1,4 +1,5 @@
-﻿using System;
+﻿using BenchmarkDotNet.Attributes;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
@@ -8,13 +9,59 @@ namespace WoAPoCApp
 {
     public class DemoPoC
     {
-        private int[] arr = new int[1000000];
-        public void RunDemo() { }
+        public readonly int[] arr = new int[1000000];
+        public int RandomNumber = 0;
+        private bool FoundTarget = false;
 
-        public void SetUpArray(int array) { }
+        Random rand = new Random();
+        public DemoPoC()
+        {
+            SetUpArray(arr);
 
-        public void FindTargetNumber() { }
+            GenerateRandNumber();
+        }
 
-        public void RunBinarySearch() { }
+        public int[] SetUpArray(int[] arr)
+        {
+
+            for (int i = 0; i < arr.Length; i++)
+            {
+                this.arr[i] = i;
+            }
+
+            return this.arr;
+        }
+
+        [Benchmark]
+        public int GenerateRandNumber()
+        {
+            this.RandomNumber = rand.Next(this.arr.Length);
+
+            return RandomNumber;
+        }
+
+        [Benchmark]
+        public bool LinearSearch()
+        {
+
+            while (!FoundTarget)
+            {
+                for (int i = 0; i < arr.Length; i++)
+                {
+                    if (i == this.RandomNumber)
+                    {
+                        FoundTarget = true;
+                    }
+                }
+            }
+
+            return FoundTarget;
+        }
+
+        //[Benchmark]
+        //public bool BinarySearch() {
+
+        //    return FoundTarget;
+        //}
     }
 }
