@@ -1,0 +1,9 @@
+﻿################################################################################
+# This .gitignore file was automatically created by Microsoft(R) Visual Studio.
+################################################################################
+
+/.vs
+/WoAPoCApp/.vs/WoAPoCApp
+/WoAPoCApp/bin/Debug/net8.0
+/WoAPoCApp/obj
+/WoAPoCApp/bin/Release/net8.0
