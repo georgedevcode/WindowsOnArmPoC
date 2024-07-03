@@ -3,6 +3,7 @@ using Microsoft.CodeAnalysis.CSharp.Syntax;
 using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Security.Cryptography.X509Certificates;
 using System.Text;
 using System.Threading.Tasks;
 
@@ -22,9 +23,7 @@ namespace WoAPoCApp
         {
             SetUpArray();
 
-            QuickSort(this.arr, this.left, this.right);
-
-            this.Target = GenerateRandNumber();
+            SortArray();
         }
 
         [Benchmark]
@@ -49,62 +48,13 @@ namespace WoAPoCApp
             return RandomNumber;
         }
 
-        public int Partition(int[] arr, int left, int right)
-        {
-            int pivot = arr[left];
-
-            while (true)
-            {
-                while (arr[left] < pivot)
-                {
-                    left++;
-                }
-
-                while (arr[right] > pivot)
-                {
-                    right--;
-                }
-
-                if (left < right)
-                {
-                    if (arr[left] == arr[right]) return right;
-
-                    int temp = arr[left];
-                    arr[left] = arr[right];
-                    arr[right] = temp;
-                }
-                else
-                {
-                    return right;
-                }
-            }
-        }
-
-        // O(N log(N))
         [Benchmark]
-        public void QuickSort()
+        public void SortArray()
         {
 
-            if (left < right)
-            {
-
-                int pivot = Partition(this.arr, left, right);
-
-                if (pivot > 1)
-                {
-
-                    QuickSort(this.arr, left, right);
-
-                }
-
-                if (pivot + 1 < right)
-                {
-                    QuickSort(this.arr, pivot + 1, right);
-                }
-
-            }
-
+            Array.Sort(this.arr);
         }
+ 
 
         [Benchmark]
         public bool LinearSearch()
@@ -119,6 +69,8 @@ namespace WoAPoCApp
                         FoundTarget = true;
                     }
                 }
+
+                break;
             }
 
             return FoundTarget;
