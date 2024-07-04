@@ -1,22 +1,18 @@
 ﻿using BenchmarkDotNet.Attributes;
-using System.Diagnostics;
-using Microsoft.CodeAnalysis.CSharp.Syntax;
 using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Security.Cryptography.X509Certificates;
-using System.Text;
-using System.Threading.Tasks;
+using System.Security.Cryptography;
+using BenchmarkDotNet.Running;
+using BenchmarkDotNet.Diagnosers;
+using Microsoft.VSDiagnostics;
 
 namespace WoAPoCApp
 {
+    [CPUUsageDiagnoser]
     public class DemoPoC
     {
         private readonly int[] arr = new int[1000000];
         private bool FoundTarget = false;
         private int Target = 0;
-        private int left = 0;
-        private int right = 0;
 
         Random rand = new Random();
 
@@ -35,8 +31,6 @@ namespace WoAPoCApp
             {
                 this.arr[i] = GenerateRandNumber();
             }
-
-            this.right = this.arr.Length - 1;
 
             return this.arr;
         }
