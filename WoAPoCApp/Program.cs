@@ -8,6 +8,7 @@ class Program
 {
     static void Main(string[] args) {
 
+
         var config = ManualConfig.Create(DefaultConfig.Instance);
 
         config.AddJob(Job.Default.WithToolchain(InProcessEmitToolchain.Instance));

@@ -1,4 +1,5 @@
 ﻿using BenchmarkDotNet.Attributes;
+using System.Diagnostics;
 using Microsoft.CodeAnalysis.CSharp.Syntax;
 using System;
 using System.Collections.Generic;
@@ -11,14 +12,14 @@ namespace WoAPoCApp
 {
     public class DemoPoC
     {
-        public readonly int[] arr = new int[1000000];
-        public int RandomNumber = 0;
+        private readonly int[] arr = new int[1000000];
         private bool FoundTarget = false;
         private int Target = 0;
         private int left = 0;
         private int right = 0;
 
         Random rand = new Random();
+
         public DemoPoC()
         {
             SetUpArray();
@@ -43,9 +44,9 @@ namespace WoAPoCApp
         [Benchmark]
         public int GenerateRandNumber()
         {
-            this.RandomNumber = rand.Next(this.arr.Length);
+            this.Target = rand.Next(this.arr.Length);
 
-            return RandomNumber;
+            return Target;
         }
 
         [Benchmark]
@@ -53,33 +54,51 @@ namespace WoAPoCApp
         {
 
             Array.Sort(this.arr);
+
         }
  
-
         [Benchmark]
         public bool LinearSearch()
         {
 
-            while (!FoundTarget)
+            for (int i = 0; i < arr.Length; i++)
             {
-                for (int i = 0; i < arr.Length; i++)
+                if (i == this.Target)
                 {
-                    if (i == this.RandomNumber)
-                    {
-                        FoundTarget = true;
-                    }
-                }
+                    FoundTarget = true;
 
-                break;
+                    break;
+                }
             }
 
             return FoundTarget;
         }
 
-        //[Benchmark]
-        //public bool BinarySearch() {
+        [Benchmark]
+        public int Binarysearch()
+        {
+            int low = 0, high = arr.Length - 1;
 
-        //    return FoundTarget;
-        //}
+            while (low <= high)
+            {
+                int mid = low + (high - low) / 2;
+
+                // Check if x is present at mid
+                if (arr[mid] == Target)
+                    return mid;
+
+                // If x greater, ignore left half
+                if (arr[mid] < Target)
+                    low = mid + 1;
+
+                // If x is smaller, ignore right half
+                else
+                    high = mid - 1;
+            }
+
+            // If we reach here, then element was
+            // not present
+            return -1;
+        }
     }
 }
